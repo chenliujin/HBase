@@ -23,7 +23,7 @@
 <configuration>
     <property>
         <name>hbase.zookeeper.quorum</name>
-        <value>vm1</value>
+        <value>host1</value>
     </property>
     <property>
         <name>hbase.zookeeper.property.dataDir</name>
@@ -31,14 +31,26 @@
     </property>
     <property>
         <name>hbase.rootdir</name>
-        <value>hdfs://vm1:8020/hbase</value>
+        <value>hdfs://host1:8020/hbase</value>
+        <description>The directory shared by RegionServers.
+        </description>
     </property>
     <property>
         <name>hbase.cluster.distributed</name>
         <value>true</value>
-        <description>The mode the cluster will be in. Possible values are
+        <description>
+            The mode the cluster will be in. Possible values are
             false: standalone and pseudo-distributed setups with managed Zookeeper
             true: fully-distributed with unmanaged Zookeeper Quorum (see hbase-env.sh)
+        </description>
+    </property>
+    <property>
+        <name>hbase.hregion.max.filesize</name>
+        <value>53687091200</value>
+        <description>
+            Maximum HStoreFile size. If any one of a column families' HStoreFiles has
+            grown to exceed this value, the hosting HRegion is split in two.
+            Default: 1G.
         </description>
     </property>
 </configuration>
