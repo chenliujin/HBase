@@ -27,7 +27,7 @@ export PATH=$PATH:$HBASE_HOME/bin
 ```
 
 ## 替换 hbase 中自带的 hadoop jar，使用 hadoop-2.6.4 中的 jar
-### hbase 自带的 hadoop jar
+### 1. hbase 自带的 hadoop jar
 ```
 $ find /opt/hbase/lib  -name "hadoop*.jar"
 
@@ -47,11 +47,9 @@ $ find /opt/hbase/lib  -name "hadoop*.jar"
 /opt/hbase/lib/hadoop-mapreduce-client-jobclient-2.5.1.jar
 ```
 
-### 替换
-```
-```
+### 2. 替换
 
-### 其它依赖包
+### 3. 其它依赖包
 ```
 $ cp /opt/hadoop/share/hadoop/common/lib/htrace-core-3.0.4.jar /opt/hbase/lib/
 ```
