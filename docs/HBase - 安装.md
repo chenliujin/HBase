@@ -14,6 +14,7 @@ http://hbase.apache.org/book.html#basic.prerequisites
 ## 安装
 ```
 $ mv hbase-1.2.1 /opt/
+$ chown -R hadoop:hadoop /opt/hbase-1.2.1/
 $ cp /opt/
 $ ln -s hbase-1.2.1 hbase
 ```
@@ -47,13 +48,78 @@ $ find /opt/hbase/lib  -name "hadoop*.jar"
 ```
 
 ### 替换
+```
+```
 
+### 其它依赖包
+```
+$ cp /opt/hadoop/share/hadoop/common/lib/htrace-core-3.0.4.jar /opt/hbase/lib/
+```
 
 ## 配置
-* hbase-site.xml
+* conf/hbase-site.xml
 ```
+<configuration>
+    <property>
+        <name>hbase.rootdir</name>
+        <value>hdfs://master:9000/hbase</value>
+        <description>The directory shared by RegionServers.</description>
+    </property>
+    <property>
+        <name>hbase.cluster.distributed</name>
+        <value>true</value>
+        <description>
+            The mode the cluster will be in. Possible values are
+            false: standalone and pseudo-distributed setups with managed Zookeeper
+            true: fully-distributed with unmanaged Zookeeper Quorum (see hbase-env.sh)
+        </description>
+    </property>
+    <property>
+        <name>hbase.zookeeper.quorum</name>
+        <value>master,slave01,slave02</value>
+    </property>
+    <property>
+        <name>hbase.zookeeper.property.dataDir</name>
+        <value>/opt/zookeeper</value>
+    </property>
+</configuration>
 ```
 
+* conf/regionservers<br />
+将所有的 datanode 添加到这个文件
+```
+slave01
+slave02
+```
+
+* zookeeper
+```
 mkdir -p /opt/zookeeper
+chown -R hadoop:hadoop zookeeper
+```
 
-* regionservers
+## 启动
+```
+$ /opt/hbase/bin/start-hbase.sh
+
+$ jps
+27404 Main
+27113 HQuorumPeer
+22422 HMaster
+22553 HRegionServer
+```
+
+## 命令行
+```
+$ hbase shell
+
+hbase(main):001:0>
+hbase(main):001:0> list
+```
+
+## UI
+http://master:16010/master-status
+
+## 参考文献
+* [HBase-1.2.1 集群搭建](http://www.thebigdata.cn/HBase/29894.html)
+* [Hadoop2.x下安装HBase](http://my.oschina.net/zc741520/blog/388718)
